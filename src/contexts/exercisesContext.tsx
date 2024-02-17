@@ -49,7 +49,7 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
             try {
                 let exercisesData = [];
             if (bodyPart === 'all') {
-                exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=100', exerciseOptions);
+                exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
             } else {
                 exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
             }
