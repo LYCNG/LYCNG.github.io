@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ExercisesProvider } from './contexts/exercisesContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
+  <BrowserRouter basename='/exerciseDemo'>
     <ExercisesProvider>
         <React.StrictMode>
           <App />
