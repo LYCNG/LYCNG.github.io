@@ -14,7 +14,7 @@ const Exercises = () => {
   // Pagination
   const indexOfLastExercise = currentPage * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercises = exercises.slice(indexOfFirstExercise, indexOfLastExercise);
+  const currentExercises = exercises.length>0?exercises.slice(indexOfFirstExercise, indexOfLastExercise):[];
 
   const paginate = (_e:React.ChangeEvent<unknown>, value:number) => {
     setCurrentPage(value);

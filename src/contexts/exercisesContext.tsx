@@ -26,7 +26,8 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
 
     const onSearch = async (params:string) => { 
         if (params) { 
-            const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
+            try {
+                const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
             const searchedExercises:ExcerciseItemType[] = exercisesData.filter(
                 (item:ExcerciseItemType) => item.name.toLowerCase().includes(params)
                     || item.target.toLowerCase().includes(params)
@@ -34,6 +35,10 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
                     || item.bodyPart.toLowerCase().includes(params),
             );
             setExercises(searchedExercises);
+            } catch (err) {
+                console.log(err)
+            }
+            
         }
         return;
     };
@@ -41,17 +46,27 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
 
     useEffect(() => { 
         const fetchExercisesData = async () => {
-            let exercisesData = [];
+            try {
+                let exercisesData = [];
             if (bodyPart === 'all') {
                 exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=100', exerciseOptions);
             } else {
                 exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
             }
             setExercises(exercisesData);
+            } catch (err) {
+                console.log(err)
+            }
+            
         };
         const fetchBodyPartsData = async () => { 
-            const bodyPartsData:string[] = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
-            setBodyParts(['all', ...bodyPartsData]);
+            try {
+                const bodyPartsData:string[] = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
+                setBodyParts(['all', ...bodyPartsData]);
+             } catch (err) {
+                console.log(err)
+            }
+            
         };
         fetchExercisesData();
         fetchBodyPartsData();
