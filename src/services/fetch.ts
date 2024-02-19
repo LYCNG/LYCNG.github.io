@@ -9,7 +9,7 @@ interface RequestOptions {
 export const exerciseOptions:RequestOptions = {
   method: 'GET',
   headers: {
-    'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
+    'X-RapidAPI-Host': 'zuka.p.rapidapi.com',
     'X-RapidAPI-Key': import.meta.env.VITE_RAPID_API_KEY as string,
   },
 };

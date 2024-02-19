@@ -1,7 +1,16 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { ExcerciseItemType } from '../types';
-import { exerciseOptions, fetchData } from '../utils/fetch';
+import { BodyPartType, ExcerciseItemType } from '../types';
+import { exerciseOptions, fetchData } from '../services/fetch';
 
+type ExerciseResponseType ={
+ exercices: ExcerciseItemType[];
+ total:     number;
+}
+
+type BodyPartResponseType = {
+    total: number;
+    bodyparts: BodyPartType[];
+}
 
 type ExercisesContextType = {
     exercises: ExcerciseItemType[];
@@ -27,14 +36,15 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
     const onSearch = async (params:string) => { 
         if (params) { 
             try {
-                const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
-            const searchedExercises:ExcerciseItemType[] = exercisesData.filter(
+                const response: ExerciseResponseType = await fetchData('https://zuka.p.rapidapi.com/', exerciseOptions);
+                const exercisesData =  response.exercices;
+                const searchedExercises:ExcerciseItemType[] = exercisesData.filter(
                 (item:ExcerciseItemType) => item.name.toLowerCase().includes(params)
                     || item.target.toLowerCase().includes(params)
                     || item.equipment.toLowerCase().includes(params)
                     || item.bodyPart.toLowerCase().includes(params),
-            );
-            setExercises(searchedExercises);
+                );
+                setExercises(searchedExercises);
             } catch (err) {
                 console.log(err)
             }
@@ -49,9 +59,11 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
             try {
                 let exercisesData = [];
             if (bodyPart === 'all') {
-                exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
+                const response: ExerciseResponseType = await fetchData('https://zuka.p.rapidapi.com/', exerciseOptions);
+                exercisesData = response.exercices;
             } else {
-                exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
+                const response = await fetchData(`https://zuka.p.rapidapi.com/exercices/part/${bodyPart}`, exerciseOptions);
+                exercisesData = response.exercice;
             }
             setExercises(exercisesData);
             } catch (err) {
@@ -61,8 +73,8 @@ export const ExercisesProvider = ({ children }:{children:React.ReactNode})  => {
         };
         const fetchBodyPartsData = async () => { 
             try {
-                const bodyPartsData:string[] = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
-                setBodyParts(['all', ...bodyPartsData]);
+                const response: BodyPartResponseType = await fetchData('https://zuka.p.rapidapi.com/exercices/bodyPart', exerciseOptions);
+                setBodyParts(['all', ...response.bodyparts.map(body=>body.part)]);
              } catch (err) {
                 console.log(err)
             }

@@ -1,14 +1,19 @@
 //api types from https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
 
+
+export interface BodyPartType{
+    id: string;
+    part: string;
+}
+
+
 export interface ExcerciseItemType { 
-    bodyPart: string
-    equipment: string,
-    gifUrl: string,
-    id: string,
-    name: string,
-    target: string,
-    secondaryMuscles: string[],
-    instructions: string[]
+    bodyPart:  string;
+ equipment: string;
+ gifUrl:    string;
+ id:        string;
+ name:      string;
+ target:    string;
 }
 
 export const initialExcerciseItem: ExcerciseItemType = {
@@ -18,8 +23,6 @@ export const initialExcerciseItem: ExcerciseItemType = {
     id: '',
     name: '',
     target: '',
-    secondaryMuscles: [],
-    instructions: []
 };
 
 export interface ExcerciseVideoItemType {
